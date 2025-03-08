@@ -20,7 +20,7 @@ class Computer(models.Model): #бронювання компів у звичай
 
 class PCRoom(models.Model): #бронювання кімнати з компами+бронювання компів в кімнаті
     name = models.CharField(max_length=50, unique=True)
-    numder = models.IntegerField(default=0)
+    number = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     available = models.BooleanField(default=True)
     def __str__(self):
@@ -29,7 +29,7 @@ class PCRoom(models.Model): #бронювання кімнати з компам
 
 class BookedPCRoom(models.Model):
     pcroom = models.ForeignKey(PCRoom, on_delete=models.CASCADE)
-    user = models.ForeignKey(UProfile, on_delete=models.CASCADE)
+    uprofile = models.ForeignKey(UProfile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     is_confirmed = models.BooleanField(default=False)
@@ -39,7 +39,7 @@ class BookedPCRoom(models.Model):
 
 class BookedComputer(models.Model):
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE)
-    user = models.ForeignKey(UProfile, on_delete=models.CASCADE)
+    uprofile = models.ForeignKey(UProfile, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     is_confirmed = models.BooleanField(default=False)

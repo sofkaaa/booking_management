@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<form method="post">
+    {%csrf_token%}
+
+    Номер кімнати<input type="numder" name="pcroom_num">
+    Ім'я відвідувача<input type="text" name="upser">
+    Дата початку<input type="datetime-local" name="start_time">
+    Дата кінця<input type="datetime-local" name ="end_time">
+    <input type="submit" value="Забронювати" class="btn btn-dark">
+
+    <div class="card" style="width: 18rem;">
+        <img src="https://artline.ua/storage/images/editor/editor_1611067962492949_0.jpg" class="card-img-top" alt="тут могла бути гарна картинка, але не загрузилось..">
+        <div class="card-body">
+            <h5 class="card-title">Кімната №1</h5>
+    <p class="card-text">Пориньте у світ яскравих кольорів та нестримної енергії! Це не просто робоче місце, це портал у безмежний ігровий всесвіт, де кожен піксель пульсує адреналіном. Відчуйте себе в центрі подій, оточені сяйвом технологій та комфортом, створеним для перемог.</p>
+        </div>
+    </div>
+</form>
+{%endblock%}
