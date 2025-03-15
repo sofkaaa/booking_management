@@ -15,6 +15,20 @@
     <a href="{% url 'PCRoom-list' %}" class="btn btn-dark">список кімнат</a>
     <a href="{% url 'book-pcroom' %}" class="btn btn-dark">Забронювати кімнату</a>
     <a href="{% url 'book-computer' %}" class="btn btn-dark">Забронювати пк</a>
+
+    {% if user.is_authenticated %}
+        <p>   
+            Hello {{user.username}}
+            <form method="post", action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-dark" value="Logout">
+            </form>
+        </p> 
+    {% else %}
+        <a href="{% url 'login'%}" class="btn btn-dark">login</a>
+    {% endif %}
+        <a href="{% url 'register' %}">Register</a>
+
     {%block content%}
 
     {%endblock%}
