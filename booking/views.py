@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .models import PCRoom, Computer , UProfile , BookedPCRoom
@@ -39,14 +40,22 @@ def book_pcroom(request: HttpRequest):
         user_name = request.POST.get("user")
         start_time = request.POST.get("start_time")
         end_time = request.POST.get("end_time")
+        email = request.POST.get("email")
 
-        pcroom = PCRoom.objects.get(number = pcroom_number)
-
+        pcroom = PCRoom.objects.get(number=pcroom_number)
         uprofile, new = UProfile.objects.get_or_create(name=user_name)
 
-        new_booked_pcroom = BookedPCRoom.objects.create(pcroom = pcroom, uprofile = uprofile, start_time= start_time, end_time=end_time )
+        
+        if BookedPCRoom.objects.filter(pcroom=pcroom, start_time__lt=end_time, end_time__gt=start_time).exists():
+            return HttpResponse("Ця кімната вже заброньована на цей період")
 
-        return redirect(reverse("PCroom-list"))
+        
+        try:
+            new_booked_pcroom = BookedPCRoom.objects.create(pcroom=pcroom, uprofile=uprofile, start_time=start_time, end_time=end_time, email=email)
+        except IntegrityError:
+            return HttpResponse("Ця кімната вже заброньована на цей період")
+
+        return redirect(reverse("pcroom-list"))
     
 def book_computer(request: HttpRequest):
     if request.method == "GET":
